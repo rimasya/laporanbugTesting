@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Website latihan Bug Hunting dan Defect Reporting untuk pembelajaran pengujian perangkat lunak." />
+    <title>BugHunt Lab — Praktik Testing</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="BugHunt Lab beranda">
+        <span class="brand-mark">BH</span>
+        <span><strong>BugHunt Lab</strong><small>Testing & Implementasi Sistem</small></span>
+      </a>
+      <nav>
+        <a href="#lab">Aplikasi latihan</a>
+        <a href="#report">Lapor defect</a>
+        <a href="#my-reports">Laporan saya</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">PRAKTIK LAB · SOFTWARE QUALITY</p>
+          <h1>Temukan masalah.<br /><span>Buktikan dengan data.</span></h1>
+          <p class="hero-text">Lingkungan latihan untuk menguji alur pengumpulan tugas mahasiswa dan menulis defect report yang bisa ditindaklanjuti.</p>
+          <a class="primary-btn" href="#lab">Mulai pengujian <span aria-hidden="true">↘</span></a>
+        </div>
+        <div class="hero-note">
+          <div class="note-top"><span class="status-dot"></span> TEST ENVIRONMENT <span class="tag">DEMO</span></div>
+          <div class="note-number">01<span>/04</span></div>
+          <p>Empat aturan bisnis menjadi dasar pengujian. Coba skenario normal, negatif, dan batas.</p>
+          <div class="mini-line"><span></span><span></span><span></span><span></span></div>
+        </div>
+      </section>
+
+      <section class="notice">
+        <span class="notice-icon">i</span>
+        <div>
+          <strong>Petunjuk untuk mahasiswa</strong>
+          <p>Website ini sengaja disiapkan sebagai simulasi. Jangan langsung menganggap ada bug—bandingkan hasil aktual dengan aturan yang tertulis dan simpan bukti pengujian.</p>
+        </div>
+      </section>
+
+      <section class="section" id="lab">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / TEST AREA</p>
+            <h2>Aplikasi Pengumpulan Tugas</h2>
+          </div>
+          <span class="chip">Build latihan 1.0</span>
+        </div>
+        <div class="columns">
+          <div class="panel rules-panel">
+            <div class="panel-heading">
+              <span class="panel-icon">≡</span>
+              <div>
+                <h3>Aturan bisnis</h3>
+                <p>Gunakan aturan ini sebagai expected result.</p>
+              </div>
+            </div>
+            <ul class="rule-list">
+              <li><span class="rule-num">01</span><span>Hanya mahasiswa yang login yang boleh mengumpulkan tugas.</span></li>
+              <li>
+                <span class="rule-num">02</span><span>Pengumpulan ditutup pada <strong id="deadline-label">25 Oktober 2026, 23.59 WIB</strong>.</span>
+              </li>
+              <li>
+                <span class="rule-num">03</span><span>Format file yang diterima: <strong>PDF, DOCX, ZIP</strong>.</span>
+              </li>
+              <li>
+                <span class="rule-num">04</span><span>Ukuran file maksimal <strong>10 MB</strong>.</span>
+              </li>
+              <li><span class="rule-num">05</span><span>Satu mahasiswa hanya memiliki satu pengumpulan aktif per tugas.</span></li>
+            </ul>
+            <div class="safe-note"><strong>Catatan:</strong> gunakan data fiktif. File tidak dikirim ke server; aplikasi hanya membaca nama dan ukuran file di browser.</div>
+          </div>
+
+          <div class="panel form-panel">
+            <div class="panel-heading">
+              <span class="panel-icon">↥</span>
+              <div>
+                <h3>Form pengumpulan</h3>
+                <p>Isi form seperti mahasiswa yang sedang mengumpulkan tugas.</p>
+              </div>
+            </div>
+            <form id="submission-form">
+              <label for="student-name">Nama mahasiswa</label>
+              <input id="student-name" name="student-name" placeholder="Contoh: Andi Pratama" autocomplete="off" required />
+              <label for="student-class">Kelas</label>
+              <select id="student-class" name="student-class" required>
+                <option value="">Pilih kelas</option>
+                <option>TI-1A</option>
+                <option>TI-1B</option>
+                <option>SI-2A</option>
+              </select>
+              <label for="assignment">Tugas</label>
+              <select id="assignment" name="assignment" required>
+                <option value="">Pilih tugas</option>
+                <option value="audit">Laporan Audit Sistem Informasi</option>
+                <option value="web">Praktik Pengujian Website</option>
+              </select>
+              <label for="file-input">Pilih berkas <span class="hint">PDF / DOCX / ZIP · maks. 10 MB</span></label>
+              <input id="file-input" name="file" type="file" accept=".pdf,.docx,.zip" required />
+              <div class="file-info" id="file-info">Belum ada file dipilih.</div>
+              <button class="primary-btn full" type="submit">Kirim tugas <span aria-hidden="true">→</span></button>
+              <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+            </form>
+            <div class="submission-state">
+              <div><span class="state-label">STATUS TERAKHIR</span><strong id="submission-status">Belum mengumpulkan</strong></div>
+              <div><span class="state-label">WAKTU</span><strong id="submission-time">—</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section report-section" id="report">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / DEFECT REPORTING</p>
+            <h2>Temukan bug? Dokumentasikan.</h2>
+          </div>
+          <span class="chip">Laporan disimpan di browser ini</span>
+        </div>
+        <form id="report-form" class="panel report-form">
+          <div class="form-grid">
+            <div>
+              <label for="bug-title">Judul defect <span class="required">*</span></label
+              ><input id="bug-title" required placeholder="Contoh: File lebih dari 10 MB tetap diterima" />
+            </div>
+            <div>
+              <label for="bug-feature">Fitur yang diuji</label
+              ><select id="bug-feature">
+                <option>Pengumpulan tugas</option>
+                <option>Validasi file</option>
+                <option>Status pengumpulan</option>
+                <option>Validasi tenggat</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+            <div>
+              <label for="severity">Severity / dampak</label
+              ><select id="severity">
+                <option>Critical</option>
+                <option selected>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+              </select>
+            </div>
+            <div>
+              <label for="priority">Priority / urgensi</label
+              ><select id="priority">
+                <option>P1 — Segera</option>
+                <option selected>P2 — Tinggi</option>
+                <option>P3 — Normal</option>
+                <option>P4 — Rendah</option>
+              </select>
+            </div>
+            <div class="span-2">
+              <label for="steps">Langkah reproduksi <span class="required">*</span></label
+              ><textarea id="steps" required rows="3" placeholder="1. Buka halaman ...&#10;2. Isi ...&#10;3. Klik ..."></textarea>
+            </div>
+            <div>
+              <label for="expected">Expected result <span class="required">*</span></label
+              ><textarea id="expected" required rows="3" placeholder="Hasil yang seharusnya terjadi"></textarea>
+            </div>
+            <div>
+              <label for="actual">Actual result <span class="required">*</span></label
+              ><textarea id="actual" required rows="3" placeholder="Hasil yang benar-benar terjadi"></textarea>
+            </div>
+            <div class="span-2"><label for="evidence">Bukti / nama file screenshot</label><input id="evidence" placeholder="Contoh: BR-001.png (lampiran disimpan terpisah)" /></div>
+          </div>
+          <div class="form-actions">
+            <p class="muted">Jangan masukkan kata sandi atau data pribadi ke laporan.</p>
+            <button class="primary-btn" type="submit">Simpan laporan <span aria-hidden="true">→</span></button>
+          </div>
+          <p class="form-message" id="report-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="section" id="my-reports">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / REPORT LOG</p>
+            <h2>Laporan yang tersimpan</h2>
+          </div>
+          <div class="button-row"><button class="secondary-btn" id="export-btn" type="button">Ekspor CSV</button><button class="text-btn" id="clear-btn" type="button">Hapus data lokal</button></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Judul</th>
+                <th>Severity</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Waktu</th>
+              </tr>
+            </thead>
+            <tbody id="reports-table">
+              <tr>
+                <td colspan="6" class="empty">Belum ada laporan. Tambahkan temuan melalui formulir di atas.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">Penyimpanan menggunakan localStorage pada browser/perangkat yang sedang dipakai. Data tidak otomatis terkirim ke dosen dan tidak dibagikan ke pengguna lain. Ekspor CSV untuk dikumpulkan.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="brand">
+        <span class="brand-mark">BH</span><span><strong>BugHunt Lab</strong><small>Lingkungan latihan akademik</small></span>
+      </div>
+      <p>Gunakan secara bertanggung jawab. Uji hanya sistem yang Anda miliki atau yang memberi izin pengujian.</p>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
